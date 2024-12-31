@@ -1,9 +1,14 @@
 package scenarios;
 
+import java.time.Duration;
+import java.util.NoSuchElementException;
+import java.util.function.Function;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 public class Selections {
@@ -24,5 +29,22 @@ public class Selections {
 		Thread.sleep(2000);
 		//select an option from the drop down list box using Contains VisibleText
 		county_list.selectByContainsVisibleText("Afri");
-	}
+		FluentWait<WebDriver> fwait = new FluentWait<WebDriver>(drv)
+				.withTimeout(Duration.ofSeconds(10))// maximum time that it waits to  find the element
+				.pollingEvery(Duration.ofSeconds(2))
+				.ignoring(NoSuchElementException.class);
+		WebElement element = fwait.until(new Function<WebDriver, WebElement>() {
+
+			@Override
+			public WebElement apply(WebDriver t) {
+				return drv.findElement(By.id("name"));
+			}
+		});
+		element.click();//This action will be performed only if the element is loaded within 10 seconds with a polling interval of
+		//2 seconds and if not found, it will not throw NoSuchElement Exception
+		}
 }
+
+
+
+

@@ -18,19 +18,8 @@ public class AutoSuggestions  {
 		WebDriver drv = new FirefoxDriver();
 		drv.manage().window().maximize();
 		drv.navigate().to("https://www.google.com");
-			WebDriverWait exp_wait = new WebDriverWait(drv, Duration.ofSeconds(10));
-			WebElement search_box = exp_wait.until(ExpectedConditions.visibilityOf(drv.findElement(By.name("q"))));
-			search_box.sendKeys("selenium");
-		
-		Thread.sleep(2000);
-		List<WebElement> suggestions =  drv.findElements(By.xpath("//ul[@role='listbox']/li"));
-		for (WebElement suggest : suggestions) {
-			if(suggest.getText().toLowerCase().contains("selenium webdriver")) {
-				suggest.click();
-			}
-		}
-		Thread.sleep(2000);
-		drv.quit();
+		GoogleHomePage g = new GoogleHomePage(drv);
+		g.searchQuery("selenium");
 
 	}
 }
